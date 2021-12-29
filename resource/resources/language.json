@@ -1,0 +1,142 @@
+{
+    "poker":{
+        "heart": "红桃",
+        "spade": "黑桃",
+        "club": "梅花",
+        "diamond": "方块",
+        "smallJoker":"小王",
+        "bigJoker":"大王"
+    },
+
+    "names": [
+        [
+            "叶文洁",
+            "汪淼",
+            "杨冬",
+            "丁仪",
+            "程心",
+            "艾AA",
+            "庄颜",
+            "关一帆"
+        ],
+        [
+            "史强",
+            "常伟思",
+            "伊文斯",
+            "罗辑",
+            "章北海",
+            "东方延绪",
+            "云天明"
+        ]
+    ],
+    "store":{
+        "flag0":"￥",
+        "flag1":"金币",
+        "item":[
+            {
+                "coin":70000,
+                "price":6
+            },
+            {
+                "coin":220000,
+                "price":18
+            },
+            {
+                "coin":660000,
+                "price":30
+            },
+            {
+                "coin":330000,
+                "price":30
+            },
+            {
+                "coin":550000,
+                "price":50
+            },
+            {
+                "coin":1100000,
+                "price":100
+            }
+        ]
+    },
+    "activity":{
+        "flag0":"消耗",
+        "flag1":"金币，奖励",
+        "flag2": "金币",
+        "item": [
+            {
+                "consumens": 5000,
+                "get": 1000
+            },
+            {
+                "consumens": 10000,
+                "get": 3000
+            },
+            {
+                "consumens": 20000,
+                "get": 8000
+            },
+            {
+                "consumens": 50000,
+                "get": 20000
+            },
+            {
+                "consumens": 80000,
+                "get": 50000
+            },
+            {
+                "consumens": 100000,
+                "get": 100000
+            }
+        ]
+    },
+    "sign":{
+        "flag0":"第",
+        "flag1":"天签到可领取",
+        "flag2": "金币",
+        "item": [
+            {
+                "gold": 1000,
+                "day": "一"
+            },
+            {
+                "gold": 2000,
+                "day": "二"
+            },
+            {
+                "gold": 3000,
+                "day": "三"
+            },
+            {
+                "gold": 4000,
+                "day": "四"
+            },
+            {
+                "gold": 5000,
+                "day": "五"
+            },
+            {
+                "gold": 100000,
+                "day": "六"
+            }
+        ]
+    },
+
+    "designation":[
+        {
+            "name":"农民",
+            "coin":[0,50000]
+        },
+        {
+            "name":"大师",
+            "coin":[50000,100000]
+        },
+        {
+            "name":"高手",
+            "coin":[100000,100000000]
+        }
+    ],
+    
+    "hallBMG":"music/table_background_music",
+    "gameBMG":"music/table_sound_After_the_bomb"
+}

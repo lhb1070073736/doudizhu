@@ -1,0 +1,36 @@
+{
+  "ver": "2.3.5",
+  "uuid": "7c89a068-2143-4df2-8acf-d104bc9855b3",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 428,
+  "height": 98,
+  "platformSettings": {},
+  "subMetas": {
+    "store-xiaodiban": {
+      "ver": "1.0.4",
+      "uuid": "ff8e6b2a-e1f7-4991-ab5f-349c4b4ceb02",
+      "rawTextureUuid": "7c89a068-2143-4df2-8acf-d104bc9855b3",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 428,
+      "height": 98,
+      "rawWidth": 428,
+      "rawHeight": 98,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
