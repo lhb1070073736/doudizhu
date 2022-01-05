@@ -44,12 +44,14 @@ export default class Learn extends cc.Component {
         //当前作为loginScene场景中的Label节点的组件
         //访问脚本组件所在的节点属性  
         //this.node 即可查询节点下的所有属性
-        console.log(this.node.getPosition().y);
+        //console.log(this.node.getPosition().y);
 
         //访问节点中别的组件
         //this.node.getComponent(xx)   xx表示组件类型
-        console.log(this.node.getComponent(cc.Label).string);
-        
+        //console.log(this.node.getComponent(cc.Label).string);
+        //let ec=new cc.EventTarget();
+        //console.log("event发送主角死亡事件");
+        //ec.emit("Dead");
     }
 
     start () {
