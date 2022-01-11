@@ -13,10 +13,10 @@ export default class NewClass extends cc.Component {
 
     onLoad () {
         //this.schedule(this.callFun1,5);
-        this.scheduleOnce(this.callFun2,5);
+        //this.scheduleOnce(this.callFun2,5);
         //let ec =new cc.EventTarget();
         //ec.on("Dead",this.callFun3);
-        this.node.parent.on("Dead",function(){console.log("parent接收死亡")});
+        //this.node.parent.on("Dead",function(){console.log("parent接收死亡")});
         //ec.off("Dead");
         //console.log("发送主角死亡事件");
         //ec.emit("Dead",1,2,3);

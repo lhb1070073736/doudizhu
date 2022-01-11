@@ -22,9 +22,9 @@ export default class NewClass extends cc.Component {
         //this.scheduleOnce(function(){
         //    cc.director.loadScene("loginScene")
         //},7);
-        console.log("发送主角死亡事件");
+       // console.log("发送主角死亡事件");
         //cc.director.emit("Dead");
-        this.node.parent.emit("Dead");
+        //this.node.parent.emit("Dead");
         //ec.emit("Dead",1,2,3);
         
     }
