@@ -85,6 +85,8 @@ export default class NewClass extends cc.Component {
         cc.find("Canvas/background/node/dating_gaojichang").on(cc.Node.EventType.TOUCH_START,function(){
             cc.director.loadScene("GameScene");
         })
+        //添加防穿组件
+        //this.node.addComponent(cc.BlockInputEvents);
     }
 
     // update (dt) {}
