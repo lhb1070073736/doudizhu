@@ -1,9 +1,5 @@
-// Learn TypeScript:
-//  - https://docs.cocos.com/creator/manual/en/scripting/typescript.html
-// Learn Attribute:
-//  - https://docs.cocos.com/creator/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
+import { audioConfig } from "../module/audioConfig";
+import audioMas from "../module/audioMas";
 
 const {ccclass, property} = cc._decorator;
 
@@ -14,9 +10,18 @@ export default class NewClass extends cc.Component {
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {}
+    onLoad () {
+        audioMas.getInstace().playMusic(audioConfig.bg.name,true);
+        cc.find("Canvas/background").active=true;
+        cc.find("Canvas/activity").active=false;
+        cc.find("Canvas/personalCenter").active=false;
+        cc.find("Canvas/set").active=false;
+        cc.find("Canvas/store").active=false;
+        cc.find("Canvas/task").active=false;
+    }
 
-    start () {
+    start () { 
+        //audioMas.getInstace().playEffect(audioConfig.bomb.name, false)
         //活动
         cc.find("Canvas/background/huodong").on(cc.Node.EventType.TOUCH_START,function(){
             //cc.find("Canvas/background").active=false;
@@ -67,11 +72,13 @@ export default class NewClass extends cc.Component {
         cc.find("Canvas/set/xiaotanchuang_shezhi_guan").on(cc.Node.EventType.TOUCH_START,function(){
             cc.find("Canvas/set/xiaotanchuang_shezhi_guan").active=false;
             cc.find("Canvas/set/xiaotanchuang_shezhi_kai").active=true;
+            audioMas.getInstace().resumeMusic();
         })
         //关
         cc.find("Canvas/set/xiaotanchuang_shezhi_kai").on(cc.Node.EventType.TOUCH_START,function(){
             cc.find("Canvas/set/xiaotanchuang_shezhi_guan").active=true;
             cc.find("Canvas/set/xiaotanchuang_shezhi_kai").active=false;
+            audioMas.getInstace().pauseMusic();
         })
         //初级场
         cc.find("Canvas/background/node/dating_chujichang").on(cc.Node.EventType.TOUCH_START,function(){
@@ -85,6 +92,8 @@ export default class NewClass extends cc.Component {
         cc.find("Canvas/background/node/dating_gaojichang").on(cc.Node.EventType.TOUCH_START,function(){
             cc.director.loadScene("GameScene");
         })
+        //添加防穿组件
+        //this.node.addComponent(cc.BlockInputEvents);
     }
 
     // update (dt) {}

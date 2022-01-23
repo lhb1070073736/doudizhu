@@ -26,7 +26,11 @@ export default class NewClass extends cc.Component {
         //cc.director.emit("Dead");
         //this.node.parent.emit("Dead");
         //ec.emit("Dead",1,2,3);
-        
+        //cc.loader.loadResArray()
+        // cc.sys.localStorage.setItem("year",15);
+        // console.log(cc.sys.localStorage.getItem("year"));
+        // cc.sys.localStorage.removeItem("year");
+        // console.log(cc.sys.localStorage.getItem("year"));
     }
 
     start () {
