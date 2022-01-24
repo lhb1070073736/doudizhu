@@ -1,5 +1,5 @@
-import { audioConfig } from "../module/audioConfig";
-import audioMas from "../module/audioMas";
+import { audioConfig } from "../model/audioConfig";
+import audioMas from "../model/audioMas";
 
 const {ccclass, property} = cc._decorator;
 
@@ -9,6 +9,7 @@ export default class LoginScene extends cc.Component {
 
     onLoad () {
         audioMas.getInstace().init();
+        cc.loader.loadRes("res/plist/poker.plist/bg.png");
         // cc.loader.loadRes("language.json",function(err,res){
         //     if(err){
         //         console.log("加载失败",err);
