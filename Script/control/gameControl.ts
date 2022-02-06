@@ -4,10 +4,14 @@ const {ccclass, property} = cc._decorator;
 export default class gameControl extends cc.Component {
     pukeNumArr:any=null;
     playerArr1:any=null;
+    num1:number=17;
+    num2:number=17;
+    num3:number=17;
     playerArr2:any=null;
     playerArr3:any=null;
     hostArr:any=null;
     host:any=null;
+
     onLoad () {
         this.pukeNumArr=[];
         this.playerArr1=[];
@@ -18,10 +22,12 @@ export default class gameControl extends cc.Component {
         this.initPukeNumArr();
         this.initHandPuke();
         this.changeHandPuke();
+        this.sort();
+        this.changeHandPuke();
     }
 
     start () {
-
+        
     }
 
     initPukeNumArr(){
@@ -39,7 +45,7 @@ export default class gameControl extends cc.Component {
         this.pukeNumArr[53]=514;
         i=0;   
         for(i;i<54;i++){
-            j = Math.round(Math.random()*54); 
+            j = Math.round(Math.random()*53); 
             let temp=this.pukeNumArr[i];
             this.pukeNumArr[i]=this.pukeNumArr[j];
             this.pukeNumArr[j]=temp;
@@ -52,7 +58,7 @@ export default class gameControl extends cc.Component {
         let i2=0;
         let i3=0;
         for (i;i<51;i++) {
-           let temp =i %3;
+           let temp =i % 3;
            if(temp==0){
                 this.playerArr1[i1++]=this.pukeNumArr[i];
            }else if(temp==1){
@@ -64,9 +70,12 @@ export default class gameControl extends cc.Component {
         this.hostArr[0]=this.pukeNumArr[51];
         this.hostArr[1]=this.pukeNumArr[52];
         this.hostArr[2]=this.pukeNumArr[53];
+        console.log(this.pukeNumArr);
         // console.log(this.playerArr1);
         // console.log(this.playerArr2);
         // console.log(this.playerArr3);
+        // console.log(this.hostArr);
+        
         // console.log(this.hostArr);
         
     }
@@ -75,31 +84,28 @@ export default class gameControl extends cc.Component {
         let tagNum=0;
         let num=0;
         let i=0;
-        for(i;i<16;i++){
+        for(i;i<this.num2;i++){
             tagNum=this.playerArr2[i]/100;
             num=this.playerArr2[i]%100;
             tagNum>>=0;
-            console.log(tagNum);
-            console.log(num);
+            num>>=0;
             this.changeTag(tagNum,1,i,num);
         }
         i=0;
-        for(i;i<16;i++){
+        for(i;i<17;i++){
             tagNum=this.playerArr1[i]/100;
             num=this.playerArr1[i]%100;
             tagNum>>=0;
-            console.log(tagNum);
-            console.log(num);
-            this.changeTag(tagNum,0,i,num);
+            num>>=0;
+            //this.changeTag(tagNum,0,i,num);
         }
         i=0;
-        for(i;i<16;i++){
+        for(i;i<17;i++){
             tagNum=this.playerArr3[i]/100;
             num=this.playerArr3[i]%100;
             tagNum>>=0;
-            console.log(tagNum);
-            console.log(num);
-            this.changeTag(tagNum,2,i,num);
+            num>>=0;
+            //this.changeTag(tagNum,2,i,num);
         }
         // tagNum=this.playerArr2[i]/100;
         // num=this.playerArr2[i]%100;
@@ -129,8 +135,8 @@ export default class gameControl extends cc.Component {
         // tag=cc.find(path).getChildByName("tag").getComponent(cc.Sprite).spriteFrame;
         // smtag=cc.find(path).getChildByName("smtag").getComponent(cc.Sprite).spriteFrame;
         script=cc.find("Canvas").getComponent("pukeConfig");
-        console.log(script);
-        
+        //console.log(script);
+        //console.log(path);
         switch(tagNum){
             case 0:
                 cc.find(path).getChildByName("smtag").getComponent(cc.Sprite).spriteFrame=script.bigtag_fangkuai;
@@ -158,6 +164,7 @@ export default class gameControl extends cc.Component {
                 cc.find(path).getChildByName("red_0").active =false;
                 cc.find(path).getChildByName("smtag").scale=0.8;
                 color =2;
+                return;
                 break;
             case 5:
                 cc.find(path).getChildByName("smtag").getComponent(cc.Sprite).spriteFrame=script.ghost_1;
@@ -165,6 +172,7 @@ export default class gameControl extends cc.Component {
                 cc.find(path).getChildByName("red_0").active =false;
                 cc.find(path).getChildByName("smtag").scale=0.8;
                 color =3;
+                return;
                 break;
         }
 
@@ -172,86 +180,86 @@ export default class gameControl extends cc.Component {
         if(color==0){
             //黑桃草花
             switch(num){
-                case 0:
+                case 11:
                     cc.find(path).getChildByName("red_0").getComponent(cc.Sprite).spriteFrame=script.black_0;
                     break;
-                case 1:
+                case 12:
                     cc.find(path).getChildByName("red_0").getComponent(cc.Sprite).spriteFrame=script.black_1;
                     break;
-                case 2:
+                case 0:
                     cc.find(path).getChildByName("red_0").getComponent(cc.Sprite).spriteFrame=script.black_2;
                     break;
-                case 3:
+                case 1:
                     cc.find(path).getChildByName("red_0").getComponent(cc.Sprite).spriteFrame=script.black_3;
                     break;
-                case 4:
+                case 2:
                     cc.find(path).getChildByName("red_0").getComponent(cc.Sprite).spriteFrame=script.black_4;
                     break;
-                case 5:
+                case 3:
                     cc.find(path).getChildByName("red_0").getComponent(cc.Sprite).spriteFrame=script.black_5;
                     break;
-                case 6:
+                case 4:
                     cc.find(path).getChildByName("red_0").getComponent(cc.Sprite).spriteFrame=script.black_6;
                     break;
-                case 7:
+                case 5:
                     cc.find(path).getChildByName("red_0").getComponent(cc.Sprite).spriteFrame=script.black_7;
                     break;
-                case 8:
+                case 6:
                     cc.find(path).getChildByName("red_0").getComponent(cc.Sprite).spriteFrame=script.black_8;
                     break;
-                case 9:
+                case 7:
                     cc.find(path).getChildByName("red_0").getComponent(cc.Sprite).spriteFrame=script.black_9;
                     break;
-                case 10:
+                case 8:
                     cc.find(path).getChildByName("red_0").getComponent(cc.Sprite).spriteFrame=script.black_10;
                     break;
-                case 11:
+                case 9:
                     cc.find(path).getChildByName("red_0").getComponent(cc.Sprite).spriteFrame=script.black_11;
                     break;
-                case 12:
+                case 10:
                     cc.find(path).getChildByName("red_0").getComponent(cc.Sprite).spriteFrame=script.black_12;
                     break;
             }
         }else if(color==1){
             //红桃方块
             switch(num){
-                case 0:
+                case 11:
                     cc.find(path).getChildByName("red_0").getComponent(cc.Sprite).spriteFrame=script.red_0;
                     break;
-                case 1:
+                case 12:
                     cc.find(path).getChildByName("red_0").getComponent(cc.Sprite).spriteFrame=script.red_1;
                     break;
-                case 2:
+                case 0:
                     cc.find(path).getChildByName("red_0").getComponent(cc.Sprite).spriteFrame=script.red_2;
                     break;
-                case 3:
+                case 1:
                     cc.find(path).getChildByName("red_0").getComponent(cc.Sprite).spriteFrame=script.red_3;
                     break;
-                case 4:
+                case 2:
                     cc.find(path).getChildByName("red_0").getComponent(cc.Sprite).spriteFrame=script.red_4;
                     break;
-                case 5:
+                case 3:
                     cc.find(path).getChildByName("red_0").getComponent(cc.Sprite).spriteFrame=script.red_5;
                     break;
-                case 6:
+                case 4:
                     cc.find(path).getChildByName("red_0").getComponent(cc.Sprite).spriteFrame=script.red_6;
                     break;
-                case 7:
+                case 5:
                     cc.find(path).getChildByName("red_0").getComponent(cc.Sprite).spriteFrame=script.red_7;
                     break;
-                case 8:
+                case 6:
                     cc.find(path).getChildByName("red_0").getComponent(cc.Sprite).spriteFrame=script.red_8;
                     break;
-                case 9:
+                case 7:
                     cc.find(path).getChildByName("red_0").getComponent(cc.Sprite).spriteFrame=script.red_9;
                     break;
-                case 10:
+                case 8:
                     cc.find(path).getChildByName("red_0").getComponent(cc.Sprite).spriteFrame=script.red_10;
                     break;
-                case 11:
+                case 9:
                     cc.find(path).getChildByName("red_0").getComponent(cc.Sprite).spriteFrame=script.red_11;
                     break;
-                case 12:
+                case 10:
                     cc.find(path).getChildByName("red_0").getComponent(cc.Sprite).spriteFrame=script.red_12;
                     break;
             }
@@ -260,8 +268,52 @@ export default class gameControl extends cc.Component {
 
     }
 
-    // sort(){
-    //     for()
-    // }
+    sort(){
+        let i=0;
+        let j=0;
+        for(i;i<this.num2;i++){
+            for(j=i;j<(this.num2);j++){
+                // let x1=this.playerArr2[i]/100;
+                // x1>>=0;
+                let y1=this.playerArr2[i]%100;
+                y1>>=0;
+                // let x2=this.playerArr2[j]/100;
+                // x2>>=0;
+                let y2=this.playerArr2[j]%100;
+                y2>>=0;
+                if(y2>y1){
+                    let temp=this.playerArr2[i];
+                    this.playerArr2[i]=this.playerArr2[j];
+                    this.playerArr2[j]=temp;
+                }
+            }
+        }
+        i=0;
+        j=0;
+        for(i;i<this.num2;i++){
+            for(j=i+1;j<(this.num2);j++){
+                let x1=this.playerArr2[i]/100;
+                x1>>=0;
+                let y1=this.playerArr2[i]%100;
+                y1>>=0;
+                let x2=this.playerArr2[j]/100;
+                x2>>=0;
+                let y2=this.playerArr2[j]%100;
+                y2>>=0;
+                if(y2==y1){
+                    if(x2>x1){
+                    let temp=this.playerArr2[i];
+                    this.playerArr2[i]=this.playerArr2[j];
+                    this.playerArr2[j]=temp;
+                }}
+                break;
+            }
+        }
+        console.log(this.playerArr2);
+        
+    }
 
+    // show(palyerNum:number){
+
+    // }
 }

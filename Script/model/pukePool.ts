@@ -18,7 +18,7 @@ export default class pukePool extends cc.Component {
         for(i;i<17;i++){
             this.cloneNode(i);
         }  
-        
+        cc.find("Canvas/pukePool2/puke20").x=-250-35;
     }
 
     start () {
