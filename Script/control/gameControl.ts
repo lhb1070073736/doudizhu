@@ -22,12 +22,43 @@ export default class gameControl extends cc.Component {
         this.initPukeNumArr();
         this.initHandPuke();
         this.changeHandPuke();
-        this.sort();
-        this.changeHandPuke();
     }
 
     start () {
-        
+        let self=this;
+        cc.find("Canvas/button/youxi_an7").on(cc.Node.EventType.TOUCH_START,function(){
+            self.faPai_Animate();
+            self.scheduleOnce(function(){
+                self.sort();
+                self.changeHandPuke();
+            },3);
+            cc.find("Canvas/button/youxi_an7").active=false;
+            self.scheduleOnce(function(){
+                cc.find("Canvas/button/youxi_an4").active=true;
+                cc.find("Canvas/button/youxi_an5").active=true;
+                cc.find("Canvas/button/youxi_an6").active=true;
+                cc.find("Canvas/button/youxi_an8").active=true;
+                cc.find("Canvas/hostPukePool/host1").active=true;
+                cc.find("Canvas/hostPukePool/host1").getChildByName("poker_back").active=true;
+                cc.find("Canvas/hostPukePool/host2").active=true;
+                cc.find("Canvas/hostPukePool/host2").getChildByName("poker_back").active=true;
+                cc.find("Canvas/hostPukePool/host3").active=true;
+                cc.find("Canvas/hostPukePool/host3").getChildByName("poker_back").active=true;
+            },3);
+            
+        });
+
+        cc.find("Canvas/button/youxi_an4").on(cc.Node.EventType.TOUCH_START,function(){
+            cc.find("Canvas/button/youxi_an5").active=false;
+            cc.find("Canvas/button/youxi_an8").active=false;
+            self.addHostPuke();
+        })
+
+        cc.find("Canvas/button/youxi_an8").on(cc.Node.EventType.TOUCH_START,function(){
+            cc.find("Canvas/button/youxi_an5").active=false;
+            cc.find("Canvas/button/youxi_an8").active=false;
+            
+        })
     }
 
     initPukeNumArr(){
@@ -70,12 +101,11 @@ export default class gameControl extends cc.Component {
         this.hostArr[0]=this.pukeNumArr[51];
         this.hostArr[1]=this.pukeNumArr[52];
         this.hostArr[2]=this.pukeNumArr[53];
-        console.log(this.pukeNumArr);
+        //console.log(this.pukeNumArr);
         // console.log(this.playerArr1);
         // console.log(this.playerArr2);
         // console.log(this.playerArr3);
         // console.log(this.hostArr);
-        
         // console.log(this.hostArr);
         
     }
@@ -92,7 +122,7 @@ export default class gameControl extends cc.Component {
             this.changeTag(tagNum,1,i,num);
         }
         i=0;
-        for(i;i<17;i++){
+        for(i;i<this.num1;i++){
             tagNum=this.playerArr1[i]/100;
             num=this.playerArr1[i]%100;
             tagNum>>=0;
@@ -100,19 +130,13 @@ export default class gameControl extends cc.Component {
             //this.changeTag(tagNum,0,i,num);
         }
         i=0;
-        for(i;i<17;i++){
+        for(i;i<this.num3;i++){
             tagNum=this.playerArr3[i]/100;
             num=this.playerArr3[i]%100;
             tagNum>>=0;
             num>>=0;
             //this.changeTag(tagNum,2,i,num);
         }
-        // tagNum=this.playerArr2[i]/100;
-        // num=this.playerArr2[i]%100;
-        // tagNum>>=0;
-        // console.log(tagNum);
-        // console.log(num);
-        // this.changeTag(tagNum,1,16,num);
     }
 
     changeTag(tagNum:number,playerNum:number,pukeNum:number,num:number){
@@ -131,6 +155,7 @@ export default class gameControl extends cc.Component {
                 break;
         }
         path=path+pukeNum;
+        //cc.find(path).active=true;
         //console.log("path",path);
         // tag=cc.find(path).getChildByName("tag").getComponent(cc.Sprite).spriteFrame;
         // smtag=cc.find(path).getChildByName("smtag").getComponent(cc.Sprite).spriteFrame;
@@ -141,21 +166,29 @@ export default class gameControl extends cc.Component {
             case 0:
                 cc.find(path).getChildByName("smtag").getComponent(cc.Sprite).spriteFrame=script.bigtag_fangkuai;
                 cc.find(path).getChildByName("tag").getComponent(cc.Sprite).spriteFrame=script.bigtag_fangkuai;
+                cc.find(path).getChildByName("red_0").active =true;
+                cc.find(path).getChildByName("smtag").scale=0.5;
                 color =1;
                 break;
             case 1:
                 cc.find(path).getChildByName("smtag").getComponent(cc.Sprite).spriteFrame=script.bigtag_caohua;
                 cc.find(path).getChildByName("tag").getComponent(cc.Sprite).spriteFrame=script.bigtag_caohua;
+                cc.find(path).getChildByName("red_0").active =true;
+                cc.find(path).getChildByName("smtag").scale=0.5;
                 color =0;
                 break;
             case 2:
                 cc.find(path).getChildByName("smtag").getComponent(cc.Sprite).spriteFrame=script.bigtag_hongxing;
                 cc.find(path).getChildByName("tag").getComponent(cc.Sprite).spriteFrame=script.bigtag_hongxing;
+                cc.find(path).getChildByName("red_0").active =true;
+                cc.find(path).getChildByName("smtag").scale=0.5;
                 color =1;
                 break;
             case 3:
                 cc.find(path).getChildByName("smtag").getComponent(cc.Sprite).spriteFrame=script.bigtag_heitao;
                 cc.find(path).getChildByName("tag").getComponent(cc.Sprite).spriteFrame=script.bigtag_heitao;
+                cc.find(path).getChildByName("red_0").active =true;
+                cc.find(path).getChildByName("smtag").scale=0.5;
                 color =0;
                 break;
             case 4:
@@ -309,11 +342,58 @@ export default class gameControl extends cc.Component {
                 break;
             }
         }
-        console.log(this.playerArr2);
-        
+        console.log(this.playerArr2);        
     }
 
-    // show(palyerNum:number){
+    faPai_Animate(){
+        for(let i=0;i<this.num2;i++){
+            let path = "Canvas/pukePool2/puke2";
+            path=path+i;
+            cc.find(path).x=0;
+            cc.find(path).y=200;
+            cc.find(path).active=true;
+            let path2=path+"/poker_back";
+            cc.find(path2).active=true;
+            this.scheduleOnce(function(){
+                cc.tween(cc.find(path)).to(0.5,{position:cc.v2(-250+i*35,0)}).start();
+                cc.find(path2).active=false;
+            },i*0.1);
+        }
+    }
 
-    // }
+    addHostPuke(){
+        cc.find("Canvas/hostPukePool").active=false;
+        let puke1=cc.instantiate(cc.find("Canvas/hostPukePool/host1"));
+        let puke2=cc.instantiate(cc.find("Canvas/hostPukePool/host2"));
+        let puke3=cc.instantiate(cc.find("Canvas/hostPukePool/host3"));
+        cc.find("Canvas/pukePool2").addChild(puke1);
+        cc.find("Canvas/pukePool2").addChild(puke2);
+        cc.find("Canvas/pukePool2").addChild(puke3);
+        puke1.name="puke217";
+        puke2.name="puke218";
+        puke3.name="puke219";
+        puke1.getChildByName("poker_back").active=false;
+        puke2.getChildByName("poker_back").active=false;
+        puke3.getChildByName("poker_back").active=false;
+        puke1.scale=0.8;
+        puke2.scale=0.8;
+        puke3.scale=0.8;
+        //console.log(cc.find("Canvas/pukePool2/puke216").x);
+        puke1.x=345;
+        puke2.x=380;
+        puke3.x=415;
+        puke1.y=0;
+        puke2.y=0;
+        puke3.y=0;
+        this.num2+=3;
+        this.playerArr2[17]=this.hostArr[0];
+        this.playerArr2[18]=this.hostArr[1];
+        this.playerArr2[19]=this.hostArr[2];
+        this.changeHandPuke();
+        this.scheduleOnce(function(){
+            this.sort();
+            this.changeHandPuke();
+        },2);
+        
+    }
 }

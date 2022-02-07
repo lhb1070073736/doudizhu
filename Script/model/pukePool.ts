@@ -17,8 +17,10 @@ export default class pukePool extends cc.Component {
         var i=0;
         for(i;i<17;i++){
             this.cloneNode(i);
-        }  
-        cc.find("Canvas/pukePool2/puke20").x=-250-35;
+        }
+
+        this.add_hostpuke();
+
     }
 
     start () {
@@ -30,14 +32,45 @@ export default class pukePool extends cc.Component {
         let pukePool2 =cc.find("Canvas/pukePool2");
         let cloneNode = cc.instantiate(pukeNode);
         this.pukeNodeArr[i]= cloneNode;
-        //console.log(i,this.pukeNodeArr[i]);
         pukePool2.addChild(cloneNode);
         pukeNode.name="puke2"+i;
         pukeNode.active=true;
-        cloneNode.x=i*35-250; 
+        pukeNode.x=0;
+        pukeNode.y=200;
+        pukeNode.getChildByName("poker_back").active=true;
     }
 
-
+    add_hostpuke(){
+        let pukeNode = cc.find("Canvas/pukePool2/puke2");
+        let hostPukePool = cc.find("Canvas/hostPukePool");
+        let cloneNode1 = cc.instantiate(pukeNode);
+        let cloneNode2 = cc.instantiate(pukeNode);
+        let cloneNode3 = cc.instantiate(pukeNode);
+        hostPukePool.addChild(cloneNode1);
+        hostPukePool.addChild(cloneNode2);
+        hostPukePool.addChild(cloneNode3);
+        
+        cloneNode1.x=-100;
+        cloneNode1.y=100;
+        cloneNode1.name="host1";
+        //cloneNode1.active=true;
+        //cloneNode1.getChildByName("poker_back").active=true;
+        cloneNode1.scale=0.5;
+        
+        cloneNode2.x=0;
+        cloneNode2.y=100;
+        cloneNode2.name="host2";
+        //cloneNode2.active=true;
+        //cloneNode2.getChildByName("poker_back").active=true;
+        cloneNode2.scale=0.5;
+        
+        cloneNode3.x=100;
+        cloneNode3.y=100;
+        cloneNode3.name="host3";
+        //cloneNode3.active=true;
+        //cloneNode3.getChildByName("poker_back").active=true;
+        cloneNode3.scale=0.5;
+    }
     
     update (dt) {}
     // addPukeNode(path:string,name:string,posx,posy){
