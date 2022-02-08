@@ -16,7 +16,9 @@ export default class pukePool extends cc.Component {
         
         var i=0;
         for(i;i<17;i++){
-            this.cloneNode(i);
+            this.cloneNode1(i);
+            this.cloneNode2(i);
+            this.cloneNode3(i);
         }
 
         this.add_hostpuke();
@@ -27,7 +29,7 @@ export default class pukePool extends cc.Component {
         
     }
 
-    cloneNode(i:number){
+    cloneNode1(i:number){
         let pukeNode = cc.find("Canvas/pukePool2/puke2")
         let pukePool2 =cc.find("Canvas/pukePool2");
         let cloneNode = cc.instantiate(pukeNode);
@@ -39,6 +41,33 @@ export default class pukePool extends cc.Component {
         pukeNode.y=200;
         pukeNode.getChildByName("poker_back").active=true;
     }
+
+    cloneNode2(i:number){
+        let pukeNode = cc.find("Canvas/pukePool1/puke1")
+        let pukePool2 =cc.find("Canvas/pukePool1");
+        let cloneNode = cc.instantiate(pukeNode);
+        this.pukeNodeArr[i]= cloneNode;
+        pukePool2.addChild(cloneNode);
+        pukeNode.name="puke1"+i;
+        pukeNode.active=true;
+        pukeNode.x=0;
+        pukeNode.y=0;
+        pukeNode.getChildByName("poker_back").active=true;
+    }
+
+    cloneNode3(i:number){
+        let pukeNode = cc.find("Canvas/pukePool3/puke3")
+        let pukePool2 =cc.find("Canvas/pukePool3");
+        let cloneNode = cc.instantiate(pukeNode);
+        this.pukeNodeArr[i]= cloneNode;
+        pukePool2.addChild(cloneNode);
+        pukeNode.name="puke3"+i;
+        pukeNode.active=true;
+        pukeNode.x=0;
+        pukeNode.y=0;
+        pukeNode.getChildByName("poker_back").active=true;
+    }
+
 
     add_hostpuke(){
         let pukeNode = cc.find("Canvas/pukePool2/puke2");
@@ -52,21 +81,21 @@ export default class pukePool extends cc.Component {
         
         cloneNode1.x=-100;
         cloneNode1.y=100;
-        cloneNode1.name="host1";
+        cloneNode1.name="host0";
         //cloneNode1.active=true;
         //cloneNode1.getChildByName("poker_back").active=true;
         cloneNode1.scale=0.5;
         
         cloneNode2.x=0;
         cloneNode2.y=100;
-        cloneNode2.name="host2";
+        cloneNode2.name="host1";
         //cloneNode2.active=true;
         //cloneNode2.getChildByName("poker_back").active=true;
         cloneNode2.scale=0.5;
         
         cloneNode3.x=100;
         cloneNode3.y=100;
-        cloneNode3.name="host3";
+        cloneNode3.name="host2";
         //cloneNode3.active=true;
         //cloneNode3.getChildByName("poker_back").active=true;
         cloneNode3.scale=0.5;

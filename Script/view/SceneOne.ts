@@ -1,5 +1,5 @@
-import { audioConfig } from "../module/audioConfig";
-import audioMas from "../module/audioMas";
+import { audioConfig } from "../model/audioConfig";
+import audioMas from "../model/audioMas";
 
 const {ccclass, property} = cc._decorator;
 
