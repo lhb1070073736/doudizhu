@@ -232,8 +232,7 @@ export default class gameControl extends cc.Component {
         }
         path=path+pukeNum;
         script=cc.find("Canvas").getComponent("pukeConfig");
-        console.log(path);
-        console.log(cc.find(path));
+        
         
         switch(tagNum){
             case 0:
@@ -1644,13 +1643,13 @@ export default class gameControl extends cc.Component {
         this.tempHost=this.host;
         for(let i=1;i<2;){
             if(this.tempHost==1){
-
+                this.robot_emit1()
             }else if(this.tempHost==2){
                 cc.find("Canvas/button/youxi_an1").active=true;
                 cc.find("Canvas/button/youxi_an2").active=true;
                 cc.find("Canvas/button/youxi_an3").active=true;
             }else{
-
+                //this.robot_emit1()
             }
 
 
@@ -1674,8 +1673,15 @@ export default class gameControl extends cc.Component {
     }
 
     robot_emit1(){
+        //无tag的0-14数值
         let temp_notag={};
+        //0-14牌的数量
         let num={};
+        //要打出的牌的数量
+        let outNum=0;
+        //要打出的牌的id
+        let outNumid={};
+
         for(let i=0;i<15;i++){
             num[i]=0;
         }
@@ -1757,8 +1763,41 @@ export default class gameControl extends cc.Component {
         if(this.emitPukeNum==0){
             if(num3){
                 if(num2){
+                    let temp2=Math.round(Math.random()*(num22-1));
+                    let temp3=Math.round(Math.random()*(num33-1));
+                    outNum=5;
+                    let pukeData3=Num3[temp3];
+                    let pukeData2=Num2[temp2];
+                    let pukeData33={};
+                    let pukeData22={};
+                    let j=0;
+                    let k=0;
+                    for(let i=0;i<this.num1;i++){
+                        if(this.playerArr1[i]==pukeData3){
+                            pukeData33[j++]=i;
+                        }
+                        if(this.playerArr1[i]==pukeData2){
+                            pukeData22[k++]=i;
+                        }
+                    }
+                    console.log("pukeData",pukeData33);
+                    console.log("pukeData",pukeData22);
+                    console.log("j",j);
+                    console.log("k",k);
                     
-
+                    for(let i=0;i<j;i++){
+                        let path20="Canvas/pukePool1/puke1"+pukeData22[i];
+                        console.log("pukeData22",i,pukeData22[i]);
+                        
+                        cc.tween(cc.find(path20)).to(0.2,{position:cc.v2(35*(i+3),0)}).start();
+                    }
+                    for(let i=0;i<k;i++){
+                        let path20="Canvas/pukePool1/puke1"+pukeData33[i];
+                        console.log("pukeData33",i,pukeData33[i]);
+                        cc.tween(cc.find(path20)).to(0.2,{position:cc.v2(35*i,0)}).start();
+                    }
+                    console.log(1111,);
+                    
                 }
             }
         }
