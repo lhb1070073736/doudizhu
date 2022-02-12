@@ -39,8 +39,7 @@ export default class LoginScene extends cc.Component {
         cc.find("Canvas/background/kaishiyouxi_tex").on(cc.Node.EventType.TOUCH_START,function(){
             cc.director.loadScene("SceneOne");
         })
-
-       
+        
     }
 
     // update (dt) {}

@@ -16,6 +16,7 @@ export default class gameControl extends cc.Component {
     host:any=null;
     score:any=1;
     emitPukeNum:any=0;
+    isPout:boolean=false;
 
     onLoad () {
         this.pukeNumArr=[];
@@ -99,11 +100,17 @@ export default class gameControl extends cc.Component {
         
         //出牌
         cc.find("Canvas/button/youxi_an1").on(cc.Node.EventType.TOUCH_START,function(){
-            // self.emit_A();
-            // self.emit_AA();
-            // self.emit_AAA();
-            // self.emit_AAAB();
-            self.emit_All();
+            cc.find("Canvas/button/youxi_an3").active=false;
+            cc.find("Canvas/button/youxi_an1").active=false;
+            cc.find("Canvas/button/youxi_an2").active=false;
+            this.isPout= self.emit_All();
+        })
+        //不出
+        cc.find("Canvas/button/youxi_an3").on(cc.Node.EventType.TOUCH_START,function(){
+            cc.find("Canvas/button/youxi_an3").active=false;
+            cc.find("Canvas/button/youxi_an1").active=false;
+            cc.find("Canvas/button/youxi_an2").active=false;
+            this.isPout=false;
         })
 
         cc.find("Canvas/gameoverBox/btnNo").on(cc.Node.EventType.TOUCH_START,function(){
@@ -955,7 +962,7 @@ export default class gameControl extends cc.Component {
     //     }
     // }
 
-    emit_All(){
+    emit_All():boolean{
         let selectNum = this.selectPukeNum();
         let isCanOut:boolean =false;
         let self =this;
@@ -1014,6 +1021,10 @@ export default class gameControl extends cc.Component {
             case 20:
                 isCanOut=self.selecPuke_AABBCCDDEEFFGGHHIIJJIsis();
                 break;
+        }
+
+        if(this.emitPukeNum!=0){
+            isCanOut =isCanOut && (selectNum==this.emitPukeNum);
         }
 
         if(isCanOut){
@@ -1082,7 +1093,10 @@ export default class gameControl extends cc.Component {
                     }
                 },3);
 
-            },1)    
+            },1)
+            return true;    
+        }else{
+            return false;
         }
     }
 
@@ -1641,38 +1655,67 @@ export default class gameControl extends cc.Component {
 
 
         this.tempHost=this.host;
+
+        let isPlayerOut1:boolean=false;
+        let isPlayerOut2:boolean=false;
+        let isPlayerOut3:boolean=false;
+        let j=0;
         for(let i=1;i<2;){
             if(this.tempHost==1){
-                this.robot_emit1()
+                this.robot_emit1();
+                j=0;
             }else if(this.tempHost==2){
                 cc.find("Canvas/button/youxi_an1").active=true;
                 cc.find("Canvas/button/youxi_an2").active=true;
                 cc.find("Canvas/button/youxi_an3").active=true;
+                j=1;
             }else{
-                //this.robot_emit1()
+                this.robot_emit3();
+                j=2;
             }
 
-
-            if(this.num1==0){
-                this.gameOver();
-                break;
-            }
-            if(this.num2==0){
-                this.gameOver();
-                break;
-            }
-            if(this.num3==0){
-                this.gameOver();
-                break;
-            }
-            
+            for(;true;){
+                let k=j%3;
+                switch(k){
+                    case 0:
+                        isPlayerOut1=this.robot_emit1();
+                        j++;
+                        break;
+                    case 1:
+                        cc.find("Canvas/button/youxi_an1").active=true;
+                        cc.find("Canvas/button/youxi_an2").active=true;
+                        cc.find("Canvas/button/youxi_an3").active=true;
+                        
+                        isPlayerOut2=this.isPout;
+                        j++;
+                        break;
+                    case 2:
+                        isPlayerOut3=this.robot_emit3();
+                        j++;
+                        break;  
+                }
+                if(this.num1==0){
+                    this.gameOver();
+                    break;
+                }
+                if(this.num2==0){
+                    this.gameOver();
+                    break;
+                }
+                if(this.num3==0){
+                    this.gameOver();
+                    break;
+                }
+            }            
             break;
         }
 
 
+
     }
 
-    robot_emit1(){
+    robot_emit1():boolean{
+        let self=this;
         //无tag的0-14数值
         let temp_notag={};
         //0-14牌的数量
@@ -1681,7 +1724,7 @@ export default class gameControl extends cc.Component {
         let outNum=0;
         //要打出的牌的id
         let outNumid={};
-
+        
         for(let i=0;i<15;i++){
             num[i]=0;
         }
@@ -1759,47 +1802,392 @@ export default class gameControl extends cc.Component {
                 Num2[num22++]=i;
             }
         }
-
+        
         if(this.emitPukeNum==0){
+            let pukeData33={};
+            let pukeData22={};
+            let j=0;
+            let k=0;
             if(num3){
                 if(num2){
+                    //this.emitPukeNum=5;
                     let temp2=Math.round(Math.random()*(num22-1));
                     let temp3=Math.round(Math.random()*(num33-1));
-                    outNum=5;
                     let pukeData3=Num3[temp3];
                     let pukeData2=Num2[temp2];
-                    let pukeData33={};
-                    let pukeData22={};
-                    let j=0;
-                    let k=0;
                     for(let i=0;i<this.num1;i++){
-                        if(this.playerArr1[i]==pukeData3){
+                        if((this.playerArr1[i]%100)==pukeData3){
                             pukeData33[j++]=i;
+                            outNumid[outNum++]=this.playerArr1[i];
+                            this.playerArr1[i]=-1;
                         }
-                        if(this.playerArr1[i]==pukeData2){
+                        if((this.playerArr1[i]%100)==pukeData2){
                             pukeData22[k++]=i;
+                            outNumid[outNum++]=this.playerArr1[i];
+                            this.playerArr1[i]=-1;
                         }
                     }
-                    console.log("pukeData",pukeData33);
-                    console.log("pukeData",pukeData22);
-                    console.log("j",j);
-                    console.log("k",k);
                     
-                    for(let i=0;i<j;i++){
-                        let path20="Canvas/pukePool1/puke1"+pukeData22[i];
-                        console.log("pukeData22",i,pukeData22[i]);
-                        
-                        cc.tween(cc.find(path20)).to(0.2,{position:cc.v2(35*(i+3),0)}).start();
-                    }
                     for(let i=0;i<k;i++){
-                        let path20="Canvas/pukePool1/puke1"+pukeData33[i];
-                        console.log("pukeData33",i,pukeData33[i]);
-                        cc.tween(cc.find(path20)).to(0.2,{position:cc.v2(35*i,0)}).start();
+                        let path20="Canvas/pukePool1/puke1"+pukeData22[i];
+                        cc.find(path20).getChildByName("poker_back").active=false;
+                        if(pukeData2<pukeData3){
+                            cc.tween(cc.find(path20)).to(0.2,{position:cc.v2(50*(i+3),0)}).start();
+                        }else{
+                            cc.tween(cc.find(path20)).to(0.2,{position:cc.v2(50*i,0)}).start();
+                        }
+                        
                     }
-                    console.log(1111,);
+                    for(let i=0;i<j;i++){
+                        let path20="Canvas/pukePool1/puke1"+pukeData33[i];
+                        cc.find(path20).getChildByName("poker_back").active=false;
+                        if(pukeData2<pukeData3){
+                            cc.tween(cc.find(path20)).to(0.2,{position:cc.v2(50*i,0)}).start();
+                        }else{
+                            cc.tween(cc.find(path20)).to(0.2,{position:cc.v2(50*(i+2),0)}).start();
+                        }
+                    }
                     
+                }else{
+                    let temp3=Math.round(Math.random()*(num33-1));
+                    let pukeData3=Num3[temp3];
+                    for(let i=0;i<this.num1;i++){
+                        if((this.playerArr1[i]%100)==pukeData3){
+                            pukeData33[j++]=i;
+                            outNumid[outNum++]=this.playerArr1[i];
+                            this.playerArr1[i]=-1;
+                        }
+                    }
+        
+                    for(let i=0;i<j;i++){
+                        let path20="Canvas/pukePool1/puke1"+pukeData33[i];
+                        cc.find(path20).getChildByName("poker_back").active=false;
+                        cc.tween(cc.find(path20)).to(0.2,{position:cc.v2(50*i,0)}).start();
+                    }
+                }
+            }else if(num2){
+                let temp2=Math.round(Math.random()*(num22-1));
+                let pukeData2=Num2[temp2];
+                for(let i=0;i<this.num1;i++){
+                    if((this.playerArr1[i]%100)==pukeData2){
+                        pukeData22[k++]=i;
+                        outNumid[outNum++]=this.playerArr1[i];
+                        this.playerArr1[i]=-1;
+                    }
+                }
+                    
+                for(let i=0;i<k;i++){
+                    let path20="Canvas/pukePool1/puke1"+pukeData22[i];
+                    cc.find(path20).getChildByName("poker_back").active=false;
+                    cc.tween(cc.find(path20)).to(0.2,{position:cc.v2(50*i,0)}).start();    
+                }
+                    
+            }else{
+                let temp2=Math.round(Math.random()*(this.num3-1));
+                let pukeData2=Num2[temp2];
+                for(let i=0;i<this.num1;i++){
+                    if((this.playerArr1[i]%100)==pukeData2){
+                        pukeData22[k++]=i;
+                        outNumid[outNum++]=this.playerArr1[i];
+                        this.playerArr1[i]=-1;
+                    }
+                }
+                
+                for(let i=0;i<k;i++){
+                    let path20="Canvas/pukePool1/puke1"+pukeData22[i];
+                    cc.find(path20).getChildByName("poker_back").active=false;
+                    cc.tween(cc.find(path20)).to(0.2,{position:cc.v2(50*i,0)}).start();    
                 }
             }
+            
+            this.scheduleOnce(function(){
+                for(let j=0;j<self.num1;j++){
+                    if(this.playerArr1[j]==-1){
+                        for(let k=j+1;k<this.num1;k++){
+                            if(this.playerArr1[k]!=-1){
+                                this.playerArr1[j]=this.playerArr1[k];
+                                this.playerArr1[k]=-1;
+                                break;
+                            }
+                        }   
+                    }
+                }
+    
+                
+                for(let k=0;k<outNum;k++){
+                    self.playerArr1[self.num1-k-1]=outNumid[outNum-k-1];
+                }
+                //console.log(self.playerArr3);
+                for(let i=0;i<k;i++){
+                    let path20="Canvas/pukePool1/puke1"+pukeData22[i];
+                    cc.find(path20).x=340;
+                    cc.find(path20).y=25;
+                    cc.find(path20).getChildByName("poker_back").active=true;
+                }
+                for(let i=0;i<j;i++){
+                    let path20="Canvas/pukePool1/puke1"+pukeData33[i];
+                    cc.find(path20).x=340;
+                    cc.find(path20).y=25;
+                    cc.find(path20).getChildByName("poker_back").active=true;
+                }
+                for(let i=0;i<outNum;i++){
+                    let path="Canvas/pukePool3/puke3"+(self.num1-i-1);
+                    cc.find(path).x=(4-i)*50;
+                    cc.find(path).y=0;
+                    cc.find(path).getChildByName("poker_back").active=false;
+                }
+                self.changeHandPuke();
+            },1)
+            
+
+            this.num1 -=outNum;
+            cc.find("Canvas/handPuke1").getComponent(cc.Label).string=""+this.num1;
+        }
+        this.emitPukeNum=outNum;
+        if(outNum==0){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    robot_emit3():boolean{
+        let self =this;
+        //无tag的0-14数值
+        let temp_notag={};
+        //0-14牌的数量
+        let num={};
+        //要打出的牌的数量
+        let outNum=0;
+        //要打出的牌的id
+        let outNumid={};
+        
+        for(let i=0;i<15;i++){
+            num[i]=0;
+        }
+        for(let i=0;i<this.num3;i++){
+            temp_notag=this.playerArr3[i]%100;
+            switch(temp_notag){
+                case 0:
+                    num[0]++;
+                    break;
+                case 1:
+                    num[1]++;
+                    break;
+                case 2:
+                    num[2]++;
+                    break;
+                case 3:
+                    num[3]++;
+                    break;
+                case 4:
+                    num[4]++;
+                    break;
+                case 5:
+                    num[5]++;
+                    break;
+                case 6:
+                    num[6]++;
+                    break;
+                case 7:
+                    num[7]++;
+                    break;
+                case 8:
+                    num[8]++;
+                    break;
+                case 9:
+                    num[9]++;
+                    break;
+                case 10:
+                    num[10]++;
+                    break;
+                case 11:
+                    num[11]++;
+                    break;
+                case 12:
+                    num[12]++;
+                    break;
+                case 13:
+                    num[13]++;
+                    break;
+                case 14:
+                    num[14]++;
+                    break;
+            }
+        }
+
+        let num4=false;
+        let Num4={};
+        let num44=0;
+        let num3=false;
+        let Num3={};
+        let num33=0;
+        let num2=false;
+        let Num2={};
+        let num22=0;
+        for(let i=0;i<13;i++){
+            if(num[i]==4){
+                num4=true;
+                Num4[num44++]=i;
+            }
+            if(num[i]==3){
+                num3=true;
+                Num3[num33++]=i;
+            }
+            if(num[i]==2){
+                num2=true;
+                Num2[num22++]=i;
+            }
+        }
+        
+        // console.log("Num4",Num4,num44);
+        // console.log("Num3",Num3,num33);
+        // console.log("Num2",Num2,num22);
+        if(this.emitPukeNum==0){
+            let pukeData33={};
+            let pukeData22={};
+            let j=0;
+            let k=0;
+            if(num3){
+                if(num2){
+                    //this.emitPukeNum=5;
+                    let temp2=Math.round(Math.random()*(num22-1));
+                    let temp3=Math.round(Math.random()*(num33-1));
+                    let pukeData3=Num3[temp3];
+                    let pukeData2=Num2[temp2];
+                    for(let i=0;i<this.num3;i++){
+                        if((this.playerArr3[i]%100)==pukeData3){
+                            pukeData33[j++]=i;
+                            outNumid[outNum++]=this.playerArr3[i];
+                            this.playerArr3[i]=-1;
+                        }
+                        if((this.playerArr3[i]%100)==pukeData2){
+                            pukeData22[k++]=i;
+                            outNumid[outNum++]=this.playerArr3[i];
+                            this.playerArr3[i]=-1;
+                        }
+                    }
+                    
+                    for(let i=0;i<k;i++){
+                        let path20="Canvas/pukePool3/puke3"+pukeData22[i];
+                        cc.find(path20).getChildByName("poker_back").active=false;
+                        if(pukeData2<pukeData3){
+                            cc.tween(cc.find(path20)).to(0.2,{position:cc.v2(50*(i+3),0)}).start();
+                        }else{
+                            cc.tween(cc.find(path20)).to(0.2,{position:cc.v2(50*i,0)}).start();
+                        }
+                        
+                    }
+                    for(let i=0;i<j;i++){
+                        let path20="Canvas/pukePool3/puke3"+pukeData33[i];
+                        cc.find(path20).getChildByName("poker_back").active=false;
+                        if(pukeData2<pukeData3){
+                            cc.tween(cc.find(path20)).to(0.2,{position:cc.v2(50*i,0)}).start();
+                        }else{
+                            cc.tween(cc.find(path20)).to(0.2,{position:cc.v2(50*(i+2),0)}).start();
+                        }
+                    }
+                    
+                }else{
+                    let temp3=Math.round(Math.random()*(num33-1));
+                    let pukeData3=Num3[temp3];
+                    for(let i=0;i<this.num3;i++){
+                        if((this.playerArr3[i]%100)==pukeData3){
+                            pukeData33[j++]=i;
+                            outNumid[outNum++]=this.playerArr3[i];
+                            this.playerArr3[i]=-1;
+                        }
+                    }
+        
+                    for(let i=0;i<j;i++){
+                        let path20="Canvas/pukePool3/puke3"+pukeData33[i];
+                        cc.find(path20).getChildByName("poker_back").active=false;
+                        cc.tween(cc.find(path20)).to(0.2,{position:cc.v2(50*i,0)}).start();
+                    }
+                }
+            }else if(num2){
+                let temp2=Math.round(Math.random()*(num22-1));
+                let pukeData2=Num2[temp2];
+                for(let i=0;i<this.num3;i++){
+                    if((this.playerArr3[i]%100)==pukeData2){
+                        pukeData22[k++]=i;
+                        outNumid[outNum++]=this.playerArr3[i];
+                        this.playerArr3[i]=-1;
+                    }
+                }
+                    
+                for(let i=0;i<k;i++){
+                    let path20="Canvas/pukePool3/puke3"+pukeData22[i];
+                    cc.find(path20).getChildByName("poker_back").active=false;
+                    cc.tween(cc.find(path20)).to(0.2,{position:cc.v2(50*i,0)}).start();    
+                }
+                    
+            }else{
+                let temp2=Math.round(Math.random()*(this.num3-1));
+                let pukeData2=Num2[temp2];
+                for(let i=0;i<this.num3;i++){
+                    if((this.playerArr3[i]%100)==pukeData2){
+                        pukeData22[k++]=i;
+                        outNumid[outNum++]=this.playerArr3[i];
+                        this.playerArr3[i]=-1;
+                    }
+                }
+                
+                for(let i=0;i<k;i++){
+                    let path20="Canvas/pukePool3/puke3"+pukeData22[i];
+                    cc.find(path20).getChildByName("poker_back").active=false;
+                    cc.tween(cc.find(path20)).to(0.2,{position:cc.v2(50*i,0)}).start();    
+                }
+            }
+            
+            this.scheduleOnce(function(){
+                for(let j=0;j<self.num3;j++){
+                    if(this.playerArr3[j]==-1){
+                        for(let k=j+1;k<this.num3;k++){
+                            if(this.playerArr3[k]!=-1){
+                                this.playerArr3[j]=this.playerArr3[k];
+                                this.playerArr3[k]=-1;
+                                break;
+                            }
+                        }   
+                    }
+                }
+    
+                
+                for(let k=0;k<outNum;k++){
+                    self.playerArr3[self.num3-k-1]=outNumid[outNum-k-1];
+                }
+                //console.log(self.playerArr3);
+                for(let i=0;i<k;i++){
+                    let path20="Canvas/pukePool3/puke3"+pukeData22[i];
+                    cc.find(path20).x=340;
+                    cc.find(path20).y=25;
+                    cc.find(path20).getChildByName("poker_back").active=true;
+                }
+                for(let i=0;i<j;i++){
+                    let path20="Canvas/pukePool3/puke3"+pukeData33[i];
+                    cc.find(path20).x=340;
+                    cc.find(path20).y=25;
+                    cc.find(path20).getChildByName("poker_back").active=true;
+                }
+                for(let i=0;i<outNum;i++){
+                    let path="Canvas/pukePool3/puke3"+(self.num3-i-1);
+                    cc.find(path).x=(4-i)*50;
+                    cc.find(path).y=0;
+                    cc.find(path).getChildByName("poker_back").active=false;
+                }
+                self.changeHandPuke();
+            },1)
+            
+
+            this.num3 -=outNum;
+            cc.find("Canvas/handPuke3").getComponent(cc.Label).string=""+this.num3;
+        }
+        this.emitPukeNum=outNum;
+        if(outNum==0){
+            return false;
+        }else{
+            return true;
         }
     }
 }
