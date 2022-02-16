@@ -7694,8 +7694,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "+200",
-    "_N$string": "+200",
+    "_string": "-100",
+    "_N$string": "-100",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,

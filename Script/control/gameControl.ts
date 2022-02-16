@@ -59,6 +59,7 @@ export default class gameControl extends cc.Component {
             cc.find("Canvas/button/youxi_an1").active=true;
             self.addHostPuke();
             self.pukeButton();
+            self.host=2;
             self.score=this.score*1;
             self.hostIsplayer=true;
         })
@@ -72,6 +73,7 @@ export default class gameControl extends cc.Component {
             cc.find("Canvas/button/youxi_an1").active=true;
             self.addHostPuke();
             self.pukeButton();
+            self.host=2;
             self.score=this.score*2;
             self.hostIsplayer=true;
         })
@@ -85,6 +87,7 @@ export default class gameControl extends cc.Component {
             cc.find("Canvas/button/youxi_an1").active=true;
             self.addHostPuke();
             self.pukeButton();
+            self.host=2;
             self.score=self.score*3;
             self.hostIsplayer=true;
         })
@@ -804,7 +807,7 @@ export default class gameControl extends cc.Component {
             }
 
             this.scheduleOnce(function(){
-
+                
                 for(let i1=0;i1<selectNum;i1++){
                     node[i1].x=-250+pukeNum[i1]*35;
                     node[i1].y=0;
@@ -851,10 +854,26 @@ export default class gameControl extends cc.Component {
                         cc.find(path).active=false;
                     }
                 },3);
-
+                self.num2-=selectNum;
+                if(self.num2==0){
+                    cc.find("Canvas/gameoverBox").active=true;
+                    if(self.host==2){
+                        cc.find("Canvas/gameoverBox/msg/player2/score").getComponent(cc.Label).string="+200";
+                    }
+                    if(self.host==1){
+                        cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="-200";
+                        cc.find("Canvas/gameoverBox/msg/player2/score").getComponent(cc.Label).string="+100";
+                        cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="+100";
+                    }
+                    if(self.host==3){
+                        cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="+100";
+                        cc.find("Canvas/gameoverBox/msg/player2/score").getComponent(cc.Label).string="+100";
+                        cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="-200";
+                    }
+                }
             },1)
             self.emitPukeNum=selectNum;
-            self.num2-=selectNum;
+            
             console.log("player2 打出的牌个数为",self.emitPukeNum);
             self.isPout2=true;
 
@@ -1536,6 +1555,11 @@ export default class gameControl extends cc.Component {
                     let temp3=Math.round(Math.random()*(num33-1));
                     let pukeData3=Num3[temp3];
                     let pukeData2=Num2[temp2];
+                    /******** */
+                    console.log("player1 接收puke_score",self.puke_score);
+                    self.puke_score=pukeData3;
+                    console.log("player1 更换puke_score",self.puke_score);
+                    /******** */
                     for(let i=0;i<this.num1;i++){
                         if((this.playerArr1[i]%100)==pukeData3){
                             pukeData33[j++]=i;
@@ -1572,6 +1596,11 @@ export default class gameControl extends cc.Component {
                 }else{
                     let temp3=Math.round(Math.random()*(num33-1));
                     let pukeData3=Num3[temp3];
+                    /******** */
+                    console.log("player1 接收puke_score",self.puke_score);
+                    self.puke_score=pukeData3;
+                    console.log("player1 更换puke_score",self.puke_score);
+                    /******** */
                     for(let i=0;i<this.num1;i++){
                         if((this.playerArr1[i]%100)==pukeData3){
                             pukeData33[j++]=i;
@@ -1589,6 +1618,13 @@ export default class gameControl extends cc.Component {
             }else if(num2){
                 let temp2=Math.round(Math.random()*(num22-1));
                 let pukeData2=Num2[temp2];
+
+                /******** */
+                console.log("player1 接收puke_score",self.puke_score);
+                self.puke_score=pukeData2;
+                console.log("player1 更换puke_score",self.puke_score);
+                /******** */
+
                 for(let i=0;i<this.num1;i++){
                     if((this.playerArr1[i]%100)==pukeData2){
                         pukeData22[k++]=i;
@@ -1606,6 +1642,12 @@ export default class gameControl extends cc.Component {
             }else{
                 let temp1=Math.round(Math.random()*(num11-1));
                 let pukeData2=Num1[temp1];
+                /******** */
+                console.log("player1 接收puke_score",self.puke_score);
+                self.puke_score=pukeData2;
+                console.log("player1 更换puke_score",self.puke_score);
+                /******** */
+
                 for(let i=0;i<this.num1;i++){
                     if((this.playerArr1[i]%100)==pukeData2){
                         pukeData22[k++]=i;
@@ -1662,6 +1704,22 @@ export default class gameControl extends cc.Component {
                 }
                 self.changeHandPuke();
                 self.num1 -=outNum;
+                if(self.num1==0){
+                    cc.find("Canvas/gameoverBox").active=true;
+                    if(self.host==1){
+                        cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="+200";
+                    }
+                    if(self.host==2){
+                        cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="+100";
+                        cc.find("Canvas/gameoverBox/msg/player2/score").getComponent(cc.Label).string="-200";
+                        cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="+100";
+                    }
+                    if(self.host==3){
+                        cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="+100";
+                        cc.find("Canvas/gameoverBox/msg/player2/score").getComponent(cc.Label).string="+100";
+                        cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="-200";
+                    }
+                }
             },1)
             cc.find("Canvas/handPuke1").getComponent(cc.Label).string=""+self.num1;
         }
@@ -1680,8 +1738,15 @@ export default class gameControl extends cc.Component {
             if(mum111==0){
                 
             }else{
-                let temp1=Math.round(Math.random()*(mum111-1));
+                let temp1=Math.round(Math.random()*(mum111-1)+(num11-mum111));
                 let pukeData2=Num1[temp1];
+
+                /******** */
+                console.log("player1 接收puke_score",self.puke_score);
+                self.puke_score=pukeData2;
+                console.log("player1 更换puke_score",self.puke_score);
+                /******** */
+
                 for(let i=0;i<this.num1;i++){
                     if((this.playerArr1[i]%100)==pukeData2){
                         pukeData22[k++]=i;
@@ -1738,6 +1803,22 @@ export default class gameControl extends cc.Component {
                 self.changeHandPuke();
                 self.num1 -=outNum;
                 cc.find("Canvas/handPuke1").getComponent(cc.Label).string=""+self.num1;
+                if(self.num1==0){
+                    cc.find("Canvas/gameoverBox").active=true;
+                    if(self.host==1){
+                        cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="+200";
+                    }
+                    if(self.host==2){
+                        cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="+100";
+                        cc.find("Canvas/gameoverBox/msg/player2/score").getComponent(cc.Label).string="-200";
+                        cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="+100";
+                    }
+                    if(self.host==3){
+                        cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="+100";
+                        cc.find("Canvas/gameoverBox/msg/player2/score").getComponent(cc.Label).string="+100";
+                        cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="-200";
+                    }
+                }
             },1)
             } 
         }
@@ -1757,8 +1838,15 @@ export default class gameControl extends cc.Component {
                 
             }else{
                 if(num2){
-                    let temp2=Math.round(Math.random()*(mum111-1));
+                    let temp2=Math.round(Math.random()*(mum111-1)+(num22-mum111));
                     let pukeData2=Num2[temp2];
+
+                    /******** */
+                    console.log("player1 接收puke_score",self.puke_score);
+                    self.puke_score=pukeData2;
+                    console.log("player1 更换puke_score",self.puke_score);
+                    /******** */
+
                     for(let i=0;i<this.num1;i++){
                         if((this.playerArr1[i]%100)==pukeData2){
                             pukeData22[k++]=i;
@@ -1817,6 +1905,22 @@ export default class gameControl extends cc.Component {
                     self.changeHandPuke();
                     self.num1 -=outNum;
                     cc.find("Canvas/handPuke1").getComponent(cc.Label).string=""+self.num1;
+                    if(self.num1==0){
+                        cc.find("Canvas/gameoverBox").active=true;
+                        if(self.host==1){
+                            cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="+200";
+                        }
+                        if(self.host==2){
+                            cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="+100";
+                            cc.find("Canvas/gameoverBox/msg/player2/score").getComponent(cc.Label).string="-200";
+                            cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="+100";
+                        }
+                        if(self.host==3){
+                            cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="+100";
+                            cc.find("Canvas/gameoverBox/msg/player2/score").getComponent(cc.Label).string="+100";
+                            cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="-200";
+                        }
+                    }
                 },1)
             }   
         }
@@ -1837,8 +1941,15 @@ export default class gameControl extends cc.Component {
             }else{
                 if(num3){
                 
-                    let temp3=Math.round(Math.random()*(mum111-1));
+                    let temp3=Math.round(Math.random()*(mum111-1)+(num33-mum111));
                     let pukeData3=Num3[temp3];
+
+                    /******** */
+                    console.log("player1 接收puke_score",self.puke_score);
+                    self.puke_score=pukeData3;
+                    console.log("player1 更换puke_score",self.puke_score);
+                    /******** */
+
                     for(let i=0;i<this.num1;i++){
                         if((this.playerArr1[i]%100)==pukeData3){
                             pukeData33[j++]=i;
@@ -1897,6 +2008,22 @@ export default class gameControl extends cc.Component {
                     self.changeHandPuke();
                     self.num1 -=outNum;
                     cc.find("Canvas/handPuke1").getComponent(cc.Label).string=""+self.num1;
+                    if(self.num1==0){
+                        cc.find("Canvas/gameoverBox").active=true;
+                        if(self.host==1){
+                            cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="+200";
+                        }
+                        if(self.host==2){
+                            cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="+100";
+                            cc.find("Canvas/gameoverBox/msg/player2/score").getComponent(cc.Label).string="-200";
+                            cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="+100";
+                        }
+                        if(self.host==3){
+                            cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="+100";
+                            cc.find("Canvas/gameoverBox/msg/player2/score").getComponent(cc.Label).string="+100";
+                            cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="-200";
+                        }
+                    }
                 },1)
             }
         }
@@ -1916,8 +2043,15 @@ export default class gameControl extends cc.Component {
                 
             }else{
                 if(num4){
-                    let temp1=Math.round(Math.random()*(mum111-1));
+                    let temp1=Math.round(Math.random()*(mum111-1)+(num44-mum111));
                     let pukeData2=Num4[temp1];
+
+                    /******** */
+                    console.log("player1 接收puke_score",self.puke_score);
+                    self.puke_score=pukeData2;
+                    console.log("player1 更换puke_score",self.puke_score);
+                    /******** */
+
                     for(let i=0;i<this.num3;i++){
                         if((this.playerArr3[i]%100)==pukeData2){
                             pukeData22[k++]=i;
@@ -1975,6 +2109,22 @@ export default class gameControl extends cc.Component {
                     self.changeHandPuke();
                     self.num1 -=outNum;
                     cc.find("Canvas/handPuke1").getComponent(cc.Label).string=""+self.num1;
+                    if(self.num1==0){
+                        cc.find("Canvas/gameoverBox").active=true;
+                        if(self.host==1){
+                            cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="+200";
+                        }
+                        if(self.host==2){
+                            cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="+100";
+                            cc.find("Canvas/gameoverBox/msg/player2/score").getComponent(cc.Label).string="-200";
+                            cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="+100";
+                        }
+                        if(self.host==3){
+                            cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="+100";
+                            cc.find("Canvas/gameoverBox/msg/player2/score").getComponent(cc.Label).string="+100";
+                            cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="-200";
+                        }
+                    }
                 },1)
             }
             
@@ -1999,9 +2149,16 @@ export default class gameControl extends cc.Component {
                     if(num2){
                         //this.emitPukeNum=5;
                         let temp2=Math.round(Math.random()*(num22-1));
-                        let temp3=Math.round(Math.random()*(mum111-1));
+                        let temp3=Math.round(Math.random()*(mum111-1)+(num33-mum111));
                         let pukeData3=Num3[temp3];
                         let pukeData2=Num2[temp2];
+
+                        /******** */
+                        console.log("player1 接收puke_score",self.puke_score);
+                        self.puke_score=pukeData3;
+                        console.log("player1 更换puke_score",self.puke_score);
+                        /******** */
+
                         for(let i=0;i<this.num1;i++){
                             if((this.playerArr1[i]%100)==pukeData3){
                                 pukeData33[j++]=i;
@@ -2080,6 +2237,22 @@ export default class gameControl extends cc.Component {
                     self.changeHandPuke();
                     self.num1 -=outNum;
                     cc.find("Canvas/handPuke1").getComponent(cc.Label).string=""+self.num1;
+                    if(self.num1==0){
+                        cc.find("Canvas/gameoverBox").active=true;
+                        if(self.host==1){
+                            cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="+200";
+                        }
+                        if(self.host==2){
+                            cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="+100";
+                            cc.find("Canvas/gameoverBox/msg/player2/score").getComponent(cc.Label).string="-200";
+                            cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="+100";
+                        }
+                        if(self.host==3){
+                            cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="+100";
+                            cc.find("Canvas/gameoverBox/msg/player2/score").getComponent(cc.Label).string="+100";
+                            cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="-200";
+                        }
+                    }
                 },1)
             }
             
@@ -2218,6 +2391,13 @@ export default class gameControl extends cc.Component {
                     let temp3=Math.round(Math.random()*(num33-1));
                     let pukeData3=Num3[temp3];
                     let pukeData2=Num2[temp2];
+
+                    /******** */
+                    console.log("player3 接收puke_score",self.puke_score);
+                    self.puke_score=pukeData3;
+                    console.log("player3 更换puke_score",self.puke_score);
+                    /******** */
+
                     for(let i=0;i<this.num3;i++){
                         if((this.playerArr3[i]%100)==pukeData3){
                             pukeData33[j++]=i;
@@ -2254,6 +2434,13 @@ export default class gameControl extends cc.Component {
                 }else{
                     let temp3=Math.round(Math.random()*(num33-1));
                     let pukeData3=Num3[temp3];
+
+                    /******** */
+                    console.log("player3 接收puke_score",self.puke_score);
+                    self.puke_score=pukeData3;
+                    console.log("player3 更换puke_score",self.puke_score);
+                    /******** */
+
                     for(let i=0;i<this.num3;i++){
                         if((this.playerArr3[i]%100)==pukeData3){
                             pukeData33[j++]=i;
@@ -2271,6 +2458,13 @@ export default class gameControl extends cc.Component {
             }else if(num2){
                 let temp2=Math.round(Math.random()*(num22-1));
                 let pukeData2=Num2[temp2];
+
+                /******** */
+                console.log("player3 接收puke_score",self.puke_score);
+                self.puke_score=pukeData2;
+                console.log("player3 更换puke_score",self.puke_score);
+                /******** */
+
                 for(let i=0;i<this.num3;i++){
                     if((this.playerArr3[i]%100)==pukeData2){
                         pukeData22[k++]=i;
@@ -2288,6 +2482,13 @@ export default class gameControl extends cc.Component {
             }else{
                 let temp1=Math.round(Math.random()*(num11-1));
                 let pukeData2=Num1[temp1];
+
+                /******** */
+                console.log("player3 接收puke_score",self.puke_score);
+                self.puke_score=pukeData2;
+                console.log("player3 更换puke_score",self.puke_score);
+                /******** */
+
                 for(let i=0;i<this.num3;i++){
                     if((this.playerArr3[i]%100)==pukeData2){
                         pukeData22[k++]=i;
@@ -2344,6 +2545,22 @@ export default class gameControl extends cc.Component {
                 self.changeHandPuke();
                 self.num3 -=outNum;
                 cc.find("Canvas/handPuke3").getComponent(cc.Label).string=""+self.num3;
+                if(self.num3==0){
+                    cc.find("Canvas/gameoverBox").active=true;
+                    if(self.host==3){
+                        cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="+200";
+                    }
+                    if(self.host==2){
+                        cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="+100";
+                        cc.find("Canvas/gameoverBox/msg/player2/score").getComponent(cc.Label).string="-200";
+                        cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="+100";
+                    }
+                    if(self.host==1){
+                        cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="-200";
+                        cc.find("Canvas/gameoverBox/msg/player2/score").getComponent(cc.Label).string="+100";
+                        cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="+100";
+                    }
+                }
             },1)
         }
 
@@ -2362,8 +2579,15 @@ export default class gameControl extends cc.Component {
                 
             }else{
                 
-            let temp1=Math.round(Math.random()*(mum111-1));
+            let temp1=Math.round(Math.random()*(mum111-1)+(num11-mum111));
             let pukeData2=Num1[temp1];
+
+            /******** */
+            console.log("player3 接收puke_score",self.puke_score);
+            self.puke_score=pukeData2;
+            console.log("player3 更换puke_score",self.puke_score);
+            /******** */
+
             for(let i=0;i<this.num3;i++){
                 if((this.playerArr3[i]%100)==pukeData2){
                     pukeData22[k++]=i;
@@ -2419,6 +2643,22 @@ export default class gameControl extends cc.Component {
             self.changeHandPuke();
             self.num3 -=outNum;
             cc.find("Canvas/handPuke3").getComponent(cc.Label).string=""+self.num3;
+            if(self.num3==0){
+                cc.find("Canvas/gameoverBox").active=true;
+                if(self.host==3){
+                    cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="+200";
+                }
+                if(self.host==2){
+                    cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="+100";
+                    cc.find("Canvas/gameoverBox/msg/player2/score").getComponent(cc.Label).string="-200";
+                    cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="+100";
+                }
+                if(self.host==1){
+                    cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="-200";
+                    cc.find("Canvas/gameoverBox/msg/player2/score").getComponent(cc.Label).string="+100";
+                    cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="+100";
+                }
+            }
         },1)
             }
         }
@@ -2438,8 +2678,15 @@ export default class gameControl extends cc.Component {
                 
             }else{
                 if(num2){
-                    let temp2=Math.round(Math.random()*(mum111-1));
+                    let temp2=Math.round(Math.random()*(mum111-1)+(num22-mum111));
                     let pukeData2=Num2[temp2];
+
+                    /******** */
+                    console.log("player3 接收puke_score",self.puke_score);
+                    self.puke_score=pukeData2;
+                    console.log("player3 更换puke_score",self.puke_score);
+                    /******** */
+
                     for(let i=0;i<this.num3;i++){
                         if((this.playerArr3[i]%100)==pukeData2){
                             pukeData22[k++]=i;
@@ -2497,6 +2744,22 @@ export default class gameControl extends cc.Component {
                     self.changeHandPuke();
                     self.num3 -=outNum;
                     cc.find("Canvas/handPuke3").getComponent(cc.Label).string=""+self.num3;
+                    if(self.num3==0){
+                        cc.find("Canvas/gameoverBox").active=true;
+                        if(self.host==3){
+                            cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="+200";
+                        }
+                        if(self.host==2){
+                            cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="+100";
+                            cc.find("Canvas/gameoverBox/msg/player2/score").getComponent(cc.Label).string="-200";
+                            cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="+100";
+                        }
+                        if(self.host==1){
+                            cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="-200";
+                            cc.find("Canvas/gameoverBox/msg/player2/score").getComponent(cc.Label).string="+100";
+                            cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="+100";
+                        }
+                    }
                 },1)
             }
             
@@ -2515,8 +2778,15 @@ export default class gameControl extends cc.Component {
             }
             if(mum111==0){
                 if(num3){
-                    let temp3=Math.round(Math.random()*(mum111-1));
+                    let temp3=Math.round(Math.random()*(mum111-1)+(num33-mum111));
                         let pukeData3=Num3[temp3];
+
+                        /******** */
+                        console.log("player3 接收puke_score",self.puke_score);
+                        self.puke_score=pukeData3;
+                        console.log("player3 更换puke_score",self.puke_score);
+                        /******** */
+
                         for(let i=0;i<this.num3;i++){
                             if((this.playerArr3[i]%100)==pukeData3){
                                 pukeData33[j++]=i;
@@ -2573,6 +2843,22 @@ export default class gameControl extends cc.Component {
                     self.changeHandPuke();
                     self.num3 -=outNum;
                     cc.find("Canvas/handPuke3").getComponent(cc.Label).string=""+self.num3;
+                    if(self.num3==0){
+                        cc.find("Canvas/gameoverBox").active=true;
+                        if(self.host==3){
+                            cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="+200";
+                        }
+                        if(self.host==2){
+                            cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="+100";
+                            cc.find("Canvas/gameoverBox/msg/player2/score").getComponent(cc.Label).string="-200";
+                            cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="+100";
+                        }
+                        if(self.host==1){
+                            cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="-200";
+                            cc.find("Canvas/gameoverBox/msg/player2/score").getComponent(cc.Label).string="+100";
+                            cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="+100";
+                        }
+                    }
                 },1)
             }
             
@@ -2593,8 +2879,16 @@ export default class gameControl extends cc.Component {
                 
             }else{
                 if(num4){
-                    let temp1=Math.round(Math.random()*(mum111-1));
+                    let temp1=Math.round(Math.random()*(mum111-1)+(num44-mum111));
                     let pukeData2=Num4[temp1];
+
+
+                    /******** */
+                    console.log("player3 接收puke_score",self.puke_score);
+                    self.puke_score=pukeData2;
+                    console.log("player3 更换puke_score",self.puke_score);
+                    /******** */
+
                     for(let i=0;i<this.num3;i++){
                         if((this.playerArr3[i]%100)==pukeData2){
                             pukeData22[k++]=i;
@@ -2651,6 +2945,22 @@ export default class gameControl extends cc.Component {
                     self.changeHandPuke();
                     self.num3 -=outNum;
                     cc.find("Canvas/handPuke3").getComponent(cc.Label).string=""+self.num3;
+                    if(self.num3==0){
+                        cc.find("Canvas/gameoverBox").active=true;
+                        if(self.host==3){
+                            cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="+200";
+                        }
+                        if(self.host==2){
+                            cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="+100";
+                            cc.find("Canvas/gameoverBox/msg/player2/score").getComponent(cc.Label).string="-200";
+                            cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="+100";
+                        }
+                        if(self.host==1){
+                            cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="-200";
+                            cc.find("Canvas/gameoverBox/msg/player2/score").getComponent(cc.Label).string="+100";
+                            cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="+100";
+                        }
+                    }
                 },1)
             }
             
@@ -2674,9 +2984,16 @@ export default class gameControl extends cc.Component {
                     if(num2){
                         //this.emitPukeNum=5;
                         let temp2=Math.round(Math.random()*(num22-1));
-                        let temp3=Math.round(Math.random()*(mum111-1));
+                        let temp3=Math.round(Math.random()*(mum111-1)+(num33-mum111));
                         let pukeData3=Num3[temp3];
                         let pukeData2=Num2[temp2];
+
+                        /******** */
+                        console.log("player3 接收puke_score",self.puke_score);
+                        self.puke_score=pukeData3;
+                        console.log("player3 更换puke_score",self.puke_score);
+                        /******** */
+
                         for(let i=0;i<this.num3;i++){
                             if((this.playerArr3[i]%100)==pukeData3){
                                 pukeData33[j++]=i;
@@ -2754,6 +3071,22 @@ export default class gameControl extends cc.Component {
                     self.changeHandPuke();
                     self.num3 -=outNum;
                     cc.find("Canvas/handPuke3").getComponent(cc.Label).string=""+self.num3;
+                    if(self.num3==0){
+                        cc.find("Canvas/gameoverBox").active=true;
+                        if(self.host==3){
+                            cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="+200";
+                        }
+                        if(self.host==2){
+                            cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="+100";
+                            cc.find("Canvas/gameoverBox/msg/player2/score").getComponent(cc.Label).string="-200";
+                            cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="+100";
+                        }
+                        if(self.host==1){
+                            cc.find("Canvas/gameoverBox/msg/player1/score").getComponent(cc.Label).string="-200";
+                            cc.find("Canvas/gameoverBox/msg/player2/score").getComponent(cc.Label).string="+100";
+                            cc.find("Canvas/gameoverBox/msg/player3/score").getComponent(cc.Label).string="+100";
+                        }
+                    }
                 },1)
             }
         }
