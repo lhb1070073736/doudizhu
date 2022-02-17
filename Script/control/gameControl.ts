@@ -14,7 +14,7 @@ export default class gameControl extends cc.Component {
     hostIsplayer:any=null;
     tempHost:any=null;
     host:any=null;
-    score:any=1;
+    score:any=100;
     emitPukeNum:any=0;
     isPout1:boolean=true;
     isPout2:boolean=true;
@@ -727,6 +727,9 @@ export default class gameControl extends cc.Component {
 
         if(this.emitPukeNum!=0){
             isCanOut =(isCanOut && (selectNum==this.emitPukeNum));
+            if(self.emitPukeNum!=4){
+                isCanOut = self.selecPuke_AAAAIsis();
+            }
         }
 
         if(isCanOut){
@@ -746,7 +749,7 @@ export default class gameControl extends cc.Component {
                 }
             }
 
-            //判定是否正确
+            //判定数值是否大于上一次的数字
             if(j==6){
                 if(temp[2]==temp[3]){
                     if((temp[0]%100)>self.puke_score){
@@ -778,7 +781,7 @@ export default class gameControl extends cc.Component {
                 }
             }
             if(j==4){
-                if(temp[0]==temp[1]){
+                if(temp[0]==temp[1] && temp[0]==temp[3]){
                     if((temp[0]%100)>self.puke_score){
                         self.puke_score=temp[0]%100;
                     }else{
@@ -1695,7 +1698,7 @@ export default class gameControl extends cc.Component {
                 }
                 for(let i=0;i<outNum;i++){
                     let path="Canvas/pukePool1/puke1"+(self.num1-i-1);
-                    cc.find(path).x=(4-i)*50;
+                    cc.find(path).x=(4-i)*50-300;
                     cc.find(path).y=0;
                     cc.find(path).getChildByName("poker_back").active=false;
                     self.scheduleOnce(function(){
@@ -1793,7 +1796,7 @@ export default class gameControl extends cc.Component {
                 }
                 for(let i=0;i<outNum;i++){
                     let path="Canvas/pukePool1/puke1"+(self.num1-i-1);
-                    cc.find(path).x=(4-i)*50;
+                    cc.find(path).x=(4-i)*50-300;
                     cc.find(path).y=0;
                     cc.find(path).getChildByName("poker_back").active=false;
                     self.scheduleOnce(function(){
@@ -1895,7 +1898,7 @@ export default class gameControl extends cc.Component {
                     }
                     for(let i=0;i<outNum;i++){
                         let path="Canvas/pukePool1/puke1"+(self.num1-i-1);
-                        cc.find(path).x=(4-i)*50;
+                        cc.find(path).x=(4-i)*50-300;
                         cc.find(path).y=0;
                         cc.find(path).getChildByName("poker_back").active=false;
                         self.scheduleOnce(function(){
@@ -1998,7 +2001,7 @@ export default class gameControl extends cc.Component {
                     }
                     for(let i=0;i<outNum;i++){
                         let path="Canvas/pukePool1/puke1"+(self.num1-i-1);
-                        cc.find(path).x=(4-i)*50;
+                        cc.find(path).x=(4-i)*50-300;
                         cc.find(path).y=0;
                         cc.find(path).getChildByName("poker_back").active=false;
                         self.scheduleOnce(function(){
@@ -2099,7 +2102,7 @@ export default class gameControl extends cc.Component {
                     }
                     for(let i=0;i<outNum;i++){
                         let path="Canvas/pukePool1/puke1"+(self.num1-i-1);
-                        cc.find(path).x=(4-i)*50;
+                        cc.find(path).x=(4-i)*50-300;
                         cc.find(path).y=0;
                         cc.find(path).getChildByName("poker_back").active=false;
                         self.scheduleOnce(function(){
@@ -2227,7 +2230,7 @@ export default class gameControl extends cc.Component {
                     }
                     for(let i=0;i<outNum;i++){
                         let path="Canvas/pukePool1/puke1"+(self.num1-i-1);
-                        cc.find(path).x=(4-i)*50;
+                        cc.find(path).x=(4-i)*50-200;
                         cc.find(path).y=0;
                         cc.find(path).getChildByName("poker_back").active=false;
                         self.scheduleOnce(function(){
